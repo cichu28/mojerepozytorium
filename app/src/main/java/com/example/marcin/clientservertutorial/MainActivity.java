@@ -21,15 +21,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-    TextView textResponse;
-    EditText editTextAddress, editTextPort;
+    TextView textResponse, TextViewresponse;
+    EditText editTextAddress, editTextPort, editTextPWM_value;
     Button buttonConnect, buttonClear;
-    Button radioButtonConnect;
+    //Button radioButtonConnect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        editTextPWM_value  = (EditText)findViewById(R.id.PWM_value);
+        TextViewresponse = (TextView)findViewById(R.id.response);
 
         editTextAddress = (EditText)findViewById(R.id.address);
         editTextPort = (EditText)findViewById(R.id.port);
@@ -48,15 +51,21 @@ public class MainActivity extends Activity {
         });
     }
 
+    public void EdytujTekst(View view)
+    {
+        String S = "PWM: " + editTextPWM_value.getText().toString();
+        TextViewresponse.setText(S);
+    }
+
     // *** PRZYCISK "NASŁUCHUJE"
     OnClickListener buttonConnectOnClickListener = new OnClickListener()
     {
         @Override
         public void onClick(View arg0)
         {
-     // You have to verify editTextAddress and editTextPort are input as correct format.
-            MyClientTask myClientTask = new MyClientTask(editTextAddress.getText().toString(),Integer.parseInt(editTextPort.getText().toString()));
-            myClientTask.execute();
+                // You have to verify editTextAddress and editTextPort are input as correct format.
+                MyClientTask myClientTask = new MyClientTask(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()));
+                myClientTask.execute();
         }
     };
 
@@ -78,23 +87,21 @@ public class MainActivity extends Activity {
         @Override
         protected Void doInBackground(Void... arg0)
         {
-//            // *** WYSYŁAM
+            // *** WYSYŁAM
             try
             {
                 Socket socket = new Socket(dstAddress, dstPort);
                 InputStream inputStream = socket.getInputStream();
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(1024);
                 byte[] buffer = new byte[1024];
-
-//                int bytesRead;
+                int bytesRead;
 //                while ((bytesRead = inputStream.read(buffer)) != -1)
 //                {
 //                    byteArrayOutputStream.write(buffer, 0, bytesRead);
 //                }
-//
-//                socket.close();
-//                response = byteArrayOutputStream.toString("UTF-8");
 
+                socket.close();
+//                response = byteArrayOutputStream.toString("UTF-8");
             }
 //            // *** POBIERAM, WYPISUJĘ
 //            catch (UnknownHostException e)
