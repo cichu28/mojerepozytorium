@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-
     TextView textResponse;
     EditText editTextAddress, editTextPort;
     Button buttonConnect, buttonClear;
@@ -37,18 +36,16 @@ public class MainActivity extends Activity {
         buttonConnect = (Button)findViewById(R.id.connect);
         buttonClear = (Button)findViewById(R.id.clear);
         textResponse = (TextView)findViewById(R.id.response);
-        radioButtonConnect = (Button)findViewById(R.id.ON);
-
         buttonConnect.setOnClickListener(buttonConnectOnClickListener);
-        radioButtonConnect.setOnClickListener(buttonConnectOnClickListener);
-
-        buttonClear.setOnClickListener(new OnClickListener(){
-
+        buttonClear.setOnClickListener(new OnClickListener()
+        {
             // *** USTAWIAM PUSTY TEKST
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 textResponse.setText("");
-            }});
+            }
+        });
     }
 
     // *** PRZYCISK "NASŁUCHUJE"
@@ -81,31 +78,30 @@ public class MainActivity extends Activity {
         @Override
         protected Void doInBackground(Void... arg0)
         {
-            // *** WYSYŁAM
+//            // *** WYSYŁAM
             try
             {
                 Socket socket = new Socket(dstAddress, dstPort);
                 InputStream inputStream = socket.getInputStream();
-                ByteArrayOutputStream byteArrayOutputStream =
-                        new ByteArrayOutputStream(1024);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(1024);
                 byte[] buffer = new byte[1024];
 
-                int bytesRead;
-                while ((bytesRead = inputStream.read(buffer)) != -1)
-                {
-                    byteArrayOutputStream.write(buffer, 0, bytesRead);
-                }
-
-                socket.close();
-                response = byteArrayOutputStream.toString("UTF-8");
+//                int bytesRead;
+//                while ((bytesRead = inputStream.read(buffer)) != -1)
+//                {
+//                    byteArrayOutputStream.write(buffer, 0, bytesRead);
+//                }
+//
+//                socket.close();
+//                response = byteArrayOutputStream.toString("UTF-8");
 
             }
-            // *** POBIERAM, WYPISUJĘ
-            catch (UnknownHostException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+//            // *** POBIERAM, WYPISUJĘ
+//            catch (UnknownHostException e)
+//            {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
             catch (IOException e)
             {
                 // TODO Auto-generated catch block
@@ -115,11 +111,12 @@ public class MainActivity extends Activity {
         }
 
         // *** ???
-        @Override
-        protected void onPostExecute(Void result)
-        {
-            textResponse.setText(response);
-            super.onPostExecute(result);
-        }
+//        @Override
+//        protected void onPostExecute(Void result)
+//        {
+//            textResponse.setText(" HELLO! ");
+//            //textResponse.setText(response);
+//            super.onPostExecute(result);
+//        }
     }
 }

@@ -10,46 +10,72 @@
     tools:context=".MainActivity"
     android:weightSum="1">
 
-    <EditText
-        android:id="@+id/address"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="dstAddress"
-        android:text="172.24.1.1" />
-    <EditText
-        android:id="@+id/port"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="dstPort"
-        android:autoText="false"
-        android:text="8080" />
-    <Button
-        android:id="@+id/connect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Connect..."/>
-    <Button
-        android:id="@+id/clear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Clear"/>
+        android:layout_gravity="center_horizontal">
 
-    <Button
-        android:id="@+id/ON"
-        android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="dstAddress"
+            android:text="172.24.1.1"
+            android:layout_weight="0.76" />
+
+        <EditText
+            android:id="@+id/port"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="dstPort"
+            android:autoText="false"
+            android:text="8080"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ON/OFF"
-        android:layout_gravity="center_horizontal"
-        android:checked="false" />
+        android:layout_gravity="right"></TableLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/connect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Connect..."
+            android:layout_weight="0.81" />
+
+        <Button
+            android:id="@+id/clear"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:text="Clear"
+            android:layout_gravity="center_vertical" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/response"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.07"
         android:visibility="visible"
         android:text="CALL RASPBERRY!"
         android:textIsSelectable="false"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:id="@+id/PWM_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="dstAddress"
+        android:text="50" />
 
 </LinearLayout>
