@@ -18,13 +18,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
     TextView textResponse, TextViewresponse;
     EditText editTextAddress, editTextPort, editTextPWM_value;
     Button buttonConnect, buttonClear;
     //Button radioButtonConnect;
+
+    private static SeekBar seekBarPWM;
+    private static TextView textViewPWM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,8 @@ public class MainActivity extends Activity {
 
         editTextPWM_value  = (EditText)findViewById(R.id.PWM_value);
         TextViewresponse = (TextView)findViewById(R.id.response);
+        seekBarPWM = (SeekBar)findViewById(R.id.seekBar);
+        textViewPWM = (TextView)findViewById(R.id.response2);
 
         editTextAddress = (EditText)findViewById(R.id.address);
         editTextPort = (EditText)findViewById(R.id.port);
@@ -49,12 +56,41 @@ public class MainActivity extends Activity {
                 textResponse.setText("");
             }
         });
+        SetSeekBarPWM();
     }
 
     public void EdytujTekst(View view)
     {
         String S = "PWM: " + editTextPWM_value.getText().toString();
         TextViewresponse.setText(S);
+    }
+
+    public void SetSeekBarPWM()
+    {
+        textViewPWM.setText("PWM: " + seekBarPWM.getProgress() + " / " + seekBarPWM.getMax());
+        seekBarPWM.setOnSeekBarChangeListener(
+            new SeekBar.OnSeekBarChangeListener()
+            {
+                int progress_value;
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    progress_value = progress;
+                    textViewPWM.setText("PWM: " + progress + " / " + seekBarPWM.getMax());
+                    Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                    Toast.makeText(MainActivity.this, "SeekBar in StartTracking", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    textViewPWM.setText("PWM: " + progress_value + " / " + seekBarPWM.getMax());
+                    Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
+                }
+            }
+        );
     }
 
     // *** PRZYCISK "NASŁUCHUJE"

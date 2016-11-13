@@ -90,7 +90,7 @@
         android:textSize="20dp" />
 
     <SeekBar
-        android:layout_width="match_parent"
+        android:layout_width="246dp"
         android:layout_height="wrap_content"
         android:id="@+id/seekBar"
         android:layout_gravity="center_horizontal"
@@ -100,7 +100,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/textView" />
+        android:text="PWM:"
+        android:id="@+id/response2" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></TableRow>
 
 </LinearLayout>
