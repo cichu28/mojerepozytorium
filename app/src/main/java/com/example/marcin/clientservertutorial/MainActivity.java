@@ -8,6 +8,7 @@ import android.os.Bundle;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -77,6 +78,7 @@ public class MainActivity extends Activity {
                     progress_value = progress;
                     textViewPWM.setText("PWM: " + progress + " / " + seekBarPWM.getMax());
                     Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
+                    // tu bedzie wysylanie na server pwm
                 }
 
                 @Override
@@ -126,17 +128,23 @@ public class MainActivity extends Activity {
             // *** WYSYŁAM
             try
             {
+                // *** WYJEBAC POZA ASYNCTASCA...
                 Socket socket = new Socket(dstAddress, dstPort);
-                InputStream inputStream = socket.getInputStream();
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(1024);
+
+            //    InputStream inputStream = socket.getInputStream();
+                OutputStream byteArrayOutputStream = socket.getOutputStream();
+//                ... DO TEGO MIEJSCA//
                 byte[] buffer = new byte[1024];
+
+                buffer[0] = 5;
+                byteArrayOutputStream.write(buffer);
                 int bytesRead;
 //                while ((bytesRead = inputStream.read(buffer)) != -1)
 //                {
-//                    byteArrayOutputStream.write(buffer, 0, bytesRead);
+//                    byteArrayOutputStream.write(buffer, 0, );
 //                }
 
-                socket.close();
+                socket.close(); // na koniec appki wypierdolic
 //                response = byteArrayOutputStream.toString("UTF-8");
             }
 //            // *** POBIERAM, WYPISUJĘ
