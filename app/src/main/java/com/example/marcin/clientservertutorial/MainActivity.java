@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
     EditText editTextAddress, editTextPort, editTextPWM_value;
     Button buttonConnect, buttonClear;
     //Button radioButtonConnect;
+    int PWM;
 
     private static SeekBar seekBarPWM;
     private static TextView textViewPWM;
@@ -63,6 +64,7 @@ public class MainActivity extends Activity {
     public void EdytujTekst(View view)
     {
         String S = "PWM: " + editTextPWM_value.getText().toString();
+        PWM = Integer.parseInt(editTextPWM_value.getText().toString());     // konwertuje na inta
         TextViewresponse.setText(S);
     }
 
@@ -70,28 +72,28 @@ public class MainActivity extends Activity {
     {
         textViewPWM.setText("PWM: " + seekBarPWM.getProgress() + " / " + seekBarPWM.getMax());
         seekBarPWM.setOnSeekBarChangeListener(
-            new SeekBar.OnSeekBarChangeListener()
-            {
-                int progress_value;
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    progress_value = progress;
-                    textViewPWM.setText("PWM: " + progress + " / " + seekBarPWM.getMax());
-                    Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
-                    // tu bedzie wysylanie na server pwm
-                }
+                new SeekBar.OnSeekBarChangeListener()
+                {
+                    int progress_value;
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        progress_value = progress;
+                        textViewPWM.setText("PWM: " + progress + " / " + seekBarPWM.getMax());
+                        Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
+                        // tu bedzie wysylanie na server pwm
+                    }
 
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-                    Toast.makeText(MainActivity.this, "SeekBar in StartTracking", Toast.LENGTH_LONG).show();
-                }
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        Toast.makeText(MainActivity.this, "SeekBar in StartTracking", Toast.LENGTH_LONG).show();
+                    }
 
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                    textViewPWM.setText("PWM: " + progress_value + " / " + seekBarPWM.getMax());
-                    Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        textViewPWM.setText("PWM: " + progress_value + " / " + seekBarPWM.getMax());
+                        Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
         );
     }
 
@@ -101,9 +103,9 @@ public class MainActivity extends Activity {
         @Override
         public void onClick(View arg0)
         {
-                // You have to verify editTextAddress and editTextPort are input as correct format.
-                MyClientTask myClientTask = new MyClientTask(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()));
-                myClientTask.execute();
+            // You have to verify editTextAddress and editTextPort are input as correct format.
+            MyClientTask myClientTask = new MyClientTask(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()));
+            myClientTask.execute();
         }
     };
 
@@ -121,23 +123,18 @@ public class MainActivity extends Activity {
             dstPort = port;
         }
 
-        // *** KLIENT
         @Override
         protected Void doInBackground(Void... arg0)
         {
-            // *** WYSYŁAM
             try
             {
                 // *** WYJEBAC POZA ASYNCTASCA...
                 Socket socket = new Socket(dstAddress, dstPort);
-
-            //    InputStream inputStream = socket.getInputStream();
-                OutputStream byteArrayOutputStream = socket.getOutputStream();
-//                ... DO TEGO MIEJSCA//
+                OutputStream byteArrayOutputStream = socket.getOutputStream();      // ... DO TEGO MIEJSCA//
+//              //    InputStream inputStream = socket.getInputStream();
                 byte[] buffer = new byte[1024];
-
-                buffer[0] = 5;
-                byteArrayOutputStream.write(buffer);
+                //buffer[0] = PWM;
+                byteArrayOutputStream.write(PWM);
                 int bytesRead;
 //                while ((bytesRead = inputStream.read(buffer)) != -1)
 //                {
