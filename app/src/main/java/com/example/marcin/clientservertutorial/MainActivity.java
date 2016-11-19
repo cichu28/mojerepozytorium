@@ -38,8 +38,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editTextPWM_value  = (EditText)findViewById(R.id.PWM_value);
-        TextViewresponse = (TextView)findViewById(R.id.response);
+//        editTextPWM_value  = (EditText)findViewById(R.id.PWM_value);
+//        TextViewresponse = (TextView)findViewById(R.id.response);
         seekBarPWM = (SeekBar)findViewById(R.id.seekBar);
         textViewPWM = (TextView)findViewById(R.id.response2);
 
@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
         editTextPort = (EditText)findViewById(R.id.port);
         buttonConnect = (Button)findViewById(R.id.connect);
         buttonClear = (Button)findViewById(R.id.clear);
-        textResponse = (TextView)findViewById(R.id.response);
+//        textResponse = (TextView)findViewById(R.id.response);
         buttonConnect.setOnClickListener(buttonConnectOnClickListener);
         buttonClear.setOnClickListener(new OnClickListener()
         {
@@ -61,13 +61,13 @@ public class MainActivity extends Activity {
         SetSeekBarPWM();
     }
 
-    public void EdytujTekst(View view)
-    {
-        String S = "PWM: " + editTextPWM_value.getText().toString();
-        PWM = Integer.parseInt(editTextPWM_value.getText().toString());     // konwertuje na inta
-        PWM_byte = (byte) PWM;
-        TextViewresponse.setText(S);
-    }
+//    public void EdytujTekst(View view)
+//    {
+//        String S = "PWM: " + editTextPWM_value.getText().toString();
+//        PWM = Integer.parseInt(editTextPWM_value.getText().toString());     // konwertuje na inta
+//        PWM_byte = (byte) PWM;
+//        TextViewresponse.setText(S);
+//    }
 
     public void SetSeekBarPWM()
     {
@@ -79,9 +79,9 @@ public class MainActivity extends Activity {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         progress_value = progress;
-                        PWM = progress_value;
                         textViewPWM.setText("PWM: " + progress + " / " + seekBarPWM.getMax());
                         Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
+                        PWM = progress_value;
                         // tu bedzie wysylanie na server pwm
                     }
 
@@ -107,12 +107,13 @@ public class MainActivity extends Activity {
         {
             // You have to verify editTextAddress and editTextPort are input as correct format.
             MyClientTask myClientTask = new MyClientTask(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()));
-            String S = "PWM: " + editTextPWM_value.getText().toString();
+//           String S = "PWM: " + editTextPWM_value.getText().toString();
+//            String S = "PWM: ";
 //            PWM = Integer.parseInt(editTextPWM_value.getText().toString());     // konwertuje na inta
             PWM_byte = (byte) PWM;
 
 
-            TextViewresponse.setText(S);
+//            TextViewresponse.setText(S);
             myClientTask.execute();
         }
     };
@@ -146,7 +147,7 @@ public class MainActivity extends Activity {
 //                ... DO TEGO MIEJSCA//
                 byte[] buffer = new byte[1024];
 
-                buffer[0] = PWM_byte;
+                buffer[0] = (byte)PWM;
                 byteArrayOutputStream.write(buffer);
                 int bytesRead;
 //                while ((bytesRead = inputStream.read(buffer)) != -1)
