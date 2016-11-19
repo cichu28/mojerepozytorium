@@ -27,8 +27,8 @@ public class MainActivity extends Activity {
     TextView textResponse, TextViewresponse;
     EditText editTextAddress, editTextPort, editTextPWM_value;
     Button buttonConnect, buttonClear;
-    //Button radioButtonConnect;
-    int PWM;
+    int PWM  = 1;
+    byte PWM_byte;
 
     private static SeekBar seekBarPWM;
     private static TextView textViewPWM;
@@ -65,6 +65,7 @@ public class MainActivity extends Activity {
     {
         String S = "PWM: " + editTextPWM_value.getText().toString();
         PWM = Integer.parseInt(editTextPWM_value.getText().toString());     // konwertuje na inta
+        PWM_byte = (byte) PWM;
         TextViewresponse.setText(S);
     }
 
@@ -123,18 +124,23 @@ public class MainActivity extends Activity {
             dstPort = port;
         }
 
+        // *** KLIENT
         @Override
         protected Void doInBackground(Void... arg0)
         {
+            // *** WYSYŁAM
             try
             {
                 // *** WYJEBAC POZA ASYNCTASCA...
                 Socket socket = new Socket(dstAddress, dstPort);
-                OutputStream byteArrayOutputStream = socket.getOutputStream();      // ... DO TEGO MIEJSCA//
-//              //    InputStream inputStream = socket.getInputStream();
+
+                //    InputStream inputStream = socket.getInputStream();
+                OutputStream byteArrayOutputStream = socket.getOutputStream();
+//                ... DO TEGO MIEJSCA//
                 byte[] buffer = new byte[1024];
-                //buffer[0] = PWM;
-                byteArrayOutputStream.write(PWM);
+
+                buffer[0] = PWM_byte;
+                byteArrayOutputStream.write(buffer);
                 int bytesRead;
 //                while ((bytesRead = inputStream.read(buffer)) != -1)
 //                {
