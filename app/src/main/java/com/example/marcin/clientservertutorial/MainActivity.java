@@ -79,6 +79,7 @@ public class MainActivity extends Activity {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         progress_value = progress;
+                        PWM = progress_value;
                         textViewPWM.setText("PWM: " + progress + " / " + seekBarPWM.getMax());
                         Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
                         // tu bedzie wysylanie na server pwm
@@ -106,6 +107,12 @@ public class MainActivity extends Activity {
         {
             // You have to verify editTextAddress and editTextPort are input as correct format.
             MyClientTask myClientTask = new MyClientTask(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()));
+            String S = "PWM: " + editTextPWM_value.getText().toString();
+//            PWM = Integer.parseInt(editTextPWM_value.getText().toString());     // konwertuje na inta
+            PWM_byte = (byte) PWM;
+
+
+            TextViewresponse.setText(S);
             myClientTask.execute();
         }
     };
