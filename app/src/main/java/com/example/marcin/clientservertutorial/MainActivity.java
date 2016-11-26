@@ -82,6 +82,7 @@ public class MainActivity extends Activity {
                         textViewPWM.setText("PWM: " + progress + " / " + seekBarPWM.getMax());
                         Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
                         PWM = progress_value;
+                        PWM_byte = (byte) PWM;
                         // tu bedzie wysylanie na server pwm
                     }
 
@@ -110,7 +111,7 @@ public class MainActivity extends Activity {
 //           String S = "PWM: " + editTextPWM_value.getText().toString();
 //            String S = "PWM: ";
 //            PWM = Integer.parseInt(editTextPWM_value.getText().toString());     // konwertuje na inta
-            PWM_byte = (byte) PWM;
+           // PWM_byte = (byte) PWM;
 
 
 //            TextViewresponse.setText(S);
@@ -141,7 +142,6 @@ public class MainActivity extends Activity {
             {
                 // *** WYJEBAC POZA ASYNCTASCA...
                 Socket socket = new Socket(dstAddress, dstPort);
-
                 //    InputStream inputStream = socket.getInputStream();
                 OutputStream byteArrayOutputStream = socket.getOutputStream();
 //                ... DO TEGO MIEJSCA//
