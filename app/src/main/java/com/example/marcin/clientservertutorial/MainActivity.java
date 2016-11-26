@@ -29,7 +29,10 @@ public class MainActivity extends Activity {
     Button buttonConnect, buttonClear;
     int PWM  = 1;
     byte PWM_byte;
-
+    String dstAddress;
+    int dstPort;
+    String response;
+    MyClientTask myClientTask;
     private static SeekBar seekBarPWM;
     private static TextView textViewPWM;
 
@@ -49,12 +52,11 @@ public class MainActivity extends Activity {
         buttonClear = (Button)findViewById(R.id.clear);
 //        textResponse = (TextView)findViewById(R.id.response);
         buttonConnect.setOnClickListener(buttonConnectOnClickListener);
-        buttonClear.setOnClickListener(new OnClickListener()
-        {
+
+        buttonClear.setOnClickListener(new OnClickListener() {
             // *** USTAWIAM PUSTY TEKST
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 textResponse.setText("");
             }
         });
@@ -85,7 +87,7 @@ public class MainActivity extends Activity {
                         PWM_byte = (byte) PWM;
 
                         // tu bedzie wysylanie na server pwm
-                        MyClientTask myClientTask = new MyClientTask(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()));
+                        myClientTask = new MyClientTask(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()));
                         myClientTask.execute();
                     }
 
@@ -109,26 +111,12 @@ public class MainActivity extends Activity {
         @Override
         public void onClick(View arg0)
         {
-            // You have to verify editTextAddress and editTextPort are input as correct format.
-//           String S = "PWM: " + editTextPWM_value.getText().toString();
-//            String S = "PWM: ";
-//            PWM = Integer.parseInt(editTextPWM_value.getText().toString());     // konwertuje na inta
-           // PWM_byte = (byte) PWM;
-
-
-//            TextViewresponse.setText(S);
-
+            // Co sie stanie po wciśnięciuCONNETCT?
         }
     };
 
     public class MyClientTask extends AsyncTask<Void, Void, Void>
     {
-        // *** ZMIENNE
-        String dstAddress;
-        int dstPort;
-        String response;
-
-        // *** POBIERAM ZMIENNE
         MyClientTask(String addr, int port)
         {
             dstAddress = addr;
@@ -142,30 +130,18 @@ public class MainActivity extends Activity {
             // *** WYSYŁAM
             try
             {
-                // *** WYJEBAC POZA ASYNCTASCA...
-                Socket socket = new Socket(dstAddress, dstPort);
-                //    InputStream inputStream = socket.getInputStream();
+                Socket socket = new Socket("172.24.1.1", 8080);
                 OutputStream byteArrayOutputStream = socket.getOutputStream();
-//                ... DO TEGO MIEJSCA//
+
                 byte[] buffer = new byte[1024];
 
                 buffer[0] = (byte)PWM;
                 byteArrayOutputStream.write(buffer);
                 int bytesRead;
-//                while ((bytesRead = inputStream.read(buffer)) != -1)
-//                {
-//                    byteArrayOutputStream.write(buffer, 0, );
-//                }
 
                 socket.close(); // na koniec appki wypierdolic
-//                response = byteArrayOutputStream.toString("UTF-8");
             }
-//            // *** POBIERAM, WYPISUJĘ
-//            catch (UnknownHostException e)
-//            {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
+
             catch (IOException e)
             {
                 // TODO Auto-generated catch block
@@ -173,14 +149,5 @@ public class MainActivity extends Activity {
             }
             return null;
         }
-
-        // *** ???
-//        @Override
-//        protected void onPostExecute(Void result)
-//        {
-//            textResponse.setText(" HELLO! ");
-//            //textResponse.setText(response);
-//            super.onPostExecute(result);
-//        }
     }
 }
