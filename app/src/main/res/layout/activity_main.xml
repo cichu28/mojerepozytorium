@@ -82,6 +82,6 @@
         android:progress="1"
         android:indeterminate="false"
         android:mirrorForRtl="false"
-        android:layout_gravity="center_horizontal" />
+        android:splitTrack="false" />
 
 </LinearLayout>

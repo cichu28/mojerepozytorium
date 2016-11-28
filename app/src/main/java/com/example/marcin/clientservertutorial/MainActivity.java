@@ -37,6 +37,7 @@ public class MainActivity extends Activity {
     private static TextView textViewPWM;
     OutputStream byteArrayOutputStream;
     Socket socket;
+    byte[] buffer = new byte[1024];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,10 +88,19 @@ public class MainActivity extends Activity {
                         Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
                         PWM = progress_value;
                         PWM_byte = (byte) PWM;
-
+                        buffer[0] = (byte)PWM;
                         // tu bedzie wysylanie na server pwm
-                        myClientTask = new MyClientTask(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()));
-                        myClientTask.execute();
+                        try
+                        {
+                            byteArrayOutputStream.write(buffer);
+                            //socket.close(); // na koniec appki wypierdolic
+                        }
+
+                        catch (IOException e)
+                        {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
@@ -114,6 +124,10 @@ public class MainActivity extends Activity {
         public void onClick(View arg0)
         {
             // Co sie stanie po wciśnięciuCONNETCT?
+
+            myClientTask = new MyClientTask(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()));
+            myClientTask.execute();
+
         }
     };
 
@@ -134,17 +148,13 @@ public class MainActivity extends Activity {
             {
                 socket = new Socket("172.24.1.1", 8080);
                 byteArrayOutputStream = socket.getOutputStream();
-                byte[] buffer = new byte[1024];
-                buffer[0] = (byte)PWM;
-                byteArrayOutputStream.write(buffer);
-                socket.close(); // na koniec appki wypierdolic
             }
-
             catch (IOException e)
             {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+
             return null;
         }
     }
