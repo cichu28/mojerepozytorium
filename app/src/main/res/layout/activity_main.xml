@@ -74,12 +74,14 @@
         android:layout_gravity="right" />
 
     <SeekBar
-        android:layout_width="246dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/seekBar"
         android:focusableInTouchMode="false"
-        android:max="10"
+        android:max="15"
         android:progress="1"
-        android:indeterminate="false" />
+        android:indeterminate="false"
+        android:mirrorForRtl="false"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

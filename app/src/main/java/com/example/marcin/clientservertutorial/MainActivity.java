@@ -35,6 +35,8 @@ public class MainActivity extends Activity {
     MyClientTask myClientTask;
     private static SeekBar seekBarPWM;
     private static TextView textViewPWM;
+    OutputStream byteArrayOutputStream;
+    Socket socket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,15 +132,11 @@ public class MainActivity extends Activity {
             // *** WYSYŁAM
             try
             {
-                Socket socket = new Socket("172.24.1.1", 8080);
-                OutputStream byteArrayOutputStream = socket.getOutputStream();
-
+                socket = new Socket("172.24.1.1", 8080);
+                byteArrayOutputStream = socket.getOutputStream();
                 byte[] buffer = new byte[1024];
-
                 buffer[0] = (byte)PWM;
                 byteArrayOutputStream.write(buffer);
-                int bytesRead;
-
                 socket.close(); // na koniec appki wypierdolic
             }
 
