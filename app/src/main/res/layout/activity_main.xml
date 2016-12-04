@@ -34,10 +34,9 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"></TableLayout>
+        android:layout_gravity="right">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -61,22 +60,40 @@
 
     </LinearLayout>
 
-    <TableRow
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></TableRow>
+        android:layout_height="wrap_content">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="PWM:"
-        android:id="@+id/response2"
+        android:text="PWM (Front-Back):"
+        android:id="@+id/response"
         android:layout_gravity="right" />
 
     <SeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/seekBar"
+        android:focusableInTouchMode="false"
+        android:max="15"
+        android:progress="1"
+        android:indeterminate="false"
+        android:mirrorForRtl="false"
+        android:splitTrack="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="PWM (Right-Left):"
+        android:layout_gravity="right"
+        android:id="@+id/response2" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBar2"
         android:focusableInTouchMode="false"
         android:max="15"
         android:progress="1"
