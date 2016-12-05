@@ -64,7 +64,17 @@ public class MainActivity extends Activity {
             // *** USTAWIAM PUSTY TEKST
             @Override
             public void onClick(View v) {
-                textResponse.setText("");
+                try
+                {
+                    socket.close();
+                }
+
+                catch (IOException e)
+                {
+                    // TODO Auto-generated catch block
+                    //e.printStackTrace();
+                }
+                textResponse.setText(":)");
             }
         });
         SetSeekBarPWMrightleft();
@@ -82,7 +92,7 @@ public class MainActivity extends Activity {
 
     public void SetSeekBarPWM()
     {
-        textViewPWM_FB.setText("PWM: " + seekBarPWMfrontback.getProgress() + " / " + seekBarPWMfrontback.getMax());
+        textViewPWM_FB.setText("PWM (front-back): 0" + " / " + (seekBarPWMrightleft.getMax()/2));
         seekBarPWMfrontback.setOnSeekBarChangeListener(
                 new SeekBar.OnSeekBarChangeListener()
                 {
@@ -90,8 +100,8 @@ public class MainActivity extends Activity {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         progress_value = progress;
-                        textViewPWM_FB.setText("PWM: " + progress + " / " + seekBarPWMfrontback.getMax());
-                        Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
+                        textViewPWM_FB.setText("PWM (front-back):" + (progress_value-10) + " / " + (seekBarPWMrightleft.getMax()/2));
+//                        Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
                         PWM = progress_value;
                         buffer[0] = (byte)PWM;
                         // tu bedzie wysylanie na server pwm
@@ -110,13 +120,13 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void onStartTrackingTouch(SeekBar seekBar) {
-                        Toast.makeText(MainActivity.this, "SeekBar in StartTracking", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(MainActivity.this, "SeekBar in StartTracking", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
-                        textViewPWM_FB.setText("PWM: " + progress_value + " / " + seekBarPWMfrontback.getMax());
-                        Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
+                        textViewPWM_FB.setText("PWM (front-back):" + (progress_value-10) + " / " + (seekBarPWMrightleft.getMax()/2));
+//                        Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
                     }
                 }
         );
@@ -124,7 +134,7 @@ public class MainActivity extends Activity {
 
     public void SetSeekBarPWMrightleft()
     {
-        textViewPWM_RL.setText("PWM2: " + seekBarPWMrightleft.getProgress() + " / " + seekBarPWMrightleft.getMax());
+        textViewPWM_RL.setText("PWM (right-left): 0" + " / " + (seekBarPWMrightleft.getMax()/2));
         seekBarPWMrightleft.setOnSeekBarChangeListener(
                 new SeekBar.OnSeekBarChangeListener()
                 {
@@ -132,8 +142,8 @@ public class MainActivity extends Activity {
                     @Override
                     public void onProgressChanged(SeekBar seekBarPWMrightleft, int progress, boolean fromUser) {
                         progress_value = progress;
-                        textViewPWM_RL.setText("PWM: " + progress + " / " + seekBarPWMrightleft.getMax());
-                        Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
+                        textViewPWM_RL.setText("PWM (right-left): " + (progress_value-10) + " / " + (seekBarPWMrightleft.getMax()/2));
+//                        Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
                         PWM = progress_value;
                         buffer[1] = (byte)PWM;
                         // tu bedzie wysylanie na server pwm
@@ -152,13 +162,13 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void onStartTrackingTouch(SeekBar seekBarPWMrightleft) {
-                        Toast.makeText(MainActivity.this, "SeekBar in StartTracking", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(MainActivity.this, "SeekBar in StartTracking", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBarPWMrightleft) {
-                        textViewPWM_RL.setText("PWM: " + progress_value + " / " + seekBarPWMrightleft.getMax());
-                        Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
+                        textViewPWM_RL.setText("PWM (right-left): " + (progress_value-10) + " / " + (seekBarPWMrightleft.getMax()/2));
+//                        Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
                     }
                 }
         );
