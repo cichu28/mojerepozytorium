@@ -1,6 +1,10 @@
 package com.example.marcin.clientservertutorial;
 
 import android.app.ActionBar;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,8 +25,11 @@ import java.util.List;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -32,6 +39,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.marcin.clientservertutorial.adapter.SlidingMenuAdapter;
+import com.example.marcin.clientservertutorial.fragment.Fragment1;
+import com.example.marcin.clientservertutorial.fragment.Fragment2;
+import com.example.marcin.clientservertutorial.fragment.Fragment3;
 import com.example.marcin.clientservertutorial.model.ItemSlideMenu;
 
 public class MainActivity extends ActionBarActivity {
@@ -39,7 +49,7 @@ public class MainActivity extends ActionBarActivity {
     private SlidingMenuAdapter adapter;
     private ListView listViewSliding;
     private DrawerLayout drawerLayout;
-    private RelativeLayout mainContent;
+//    private RelativeLayout mainContent;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
@@ -50,10 +60,105 @@ public class MainActivity extends ActionBarActivity {
         //Init component
         listViewSliding = (ListView)findViewById(R.id.lv_sliding_menu);
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        mainContent = (RelativeLayout)findViewById(R.id.main_content);
+//        mainContent = (RelativeLayout)findViewById(R.id.main_content);
         listSliding = new ArrayList<>();
         //Add item for sliding list
-        listSliding.add(new ItemSlideMenu());
+        listSliding.add(new ItemSlideMenu(R.drawable.ic_action_settings, "Setting"));
+        listSliding.add(new ItemSlideMenu(R.drawable.ic_action_settings, "About"));
+        listSliding.add(new ItemSlideMenu(R.mipmap.ic_launcher, "Android"));
+        adapter = new SlidingMenuAdapter(this, listSliding);
+        listViewSliding.setAdapter(adapter);
+
+        // Display icon to open / close sliding list
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Set title
+        setTitle(listSliding.get(0).getTitle());
+        // item selected
+        listViewSliding.setItemChecked(0, true);
+        // Close menu
+        drawerLayout.closeDrawer(listViewSliding);
+
+        // Display fragment 1 when start
+        replaceFragment(0);
+
+        // Handle on item click
+
+        listViewSliding.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Set title
+                setTitle(listSliding.get(position).getTitle());
+                // item selected
+                listViewSliding.setItemChecked(position, true);
+                //Replace fragment
+                replaceFragment(position);
+                // Close menu
+                drawerLayout.closeDrawer(listViewSliding);
+
+            }
+        });
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_opened, R.string.drawer_closed){
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(actionBarDrawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onPostCreate(savedInstanceState, persistentState);
+        actionBarDrawerToggle.syncState();
+    }
+
+    // Create method replace fragment
+
+    private void replaceFragment(int pos){
+        Fragment fragment = null;
+        switch (pos) {
+            case 0:
+                fragment = new Fragment1();
+                break;
+            case 1:
+                fragment = new Fragment2();
+                break;
+            case 2:
+                fragment = new Fragment3();
+                break;
+            default:
+                fragment = new Fragment1();
+                break;
+        }
+
+        if(null!=fragment){
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.main_content, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 }
 
