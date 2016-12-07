@@ -1,6 +1,6 @@
 package com.example.marcin.clientservertutorial;
 
-import android.app.ActionBar;
+//import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -8,35 +8,38 @@ import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+//import android.support.v7.app.ActionBarDrawerToggle;
+
 
 //package com.example.androidclient;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.net.UnknownHostException;
+//import java.io.ByteArrayOutputStream;
+//import java.io.IOException;
+//import java.io.InputStream;
+//import java.io.OutputStream;
+//import java.net.Socket;
+//import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.app.Activity;
+//import android.os.AsyncTask;
+//import android.os.Bundle;
+//import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
+//import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
+//import android.widget.Button;
+//import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.SeekBar;
+//import android.widget.TextView;
+//import android.widget.Toast;
 
 import com.example.marcin.clientservertutorial.adapter.SlidingMenuAdapter;
 import com.example.marcin.clientservertutorial.fragment.Fragment1;
@@ -44,12 +47,12 @@ import com.example.marcin.clientservertutorial.fragment.Fragment2;
 import com.example.marcin.clientservertutorial.fragment.Fragment3;
 import com.example.marcin.clientservertutorial.model.ItemSlideMenu;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
     private List<ItemSlideMenu> listSliding;
     private SlidingMenuAdapter adapter;
     private ListView listViewSliding;
     private DrawerLayout drawerLayout;
-//    private RelativeLayout mainContent;
+//    private RelativeLayout mainContent;                                                           deleted
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
@@ -58,18 +61,20 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         //Init component
-        listViewSliding = (ListView)findViewById(R.id.lv_sliding_menu);
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-//        mainContent = (RelativeLayout)findViewById(R.id.main_content);
+        listViewSliding = (ListView) findViewById(R.id.lv_sliding_menu);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mainContent = (RelativeLayout) findViewById(R.id.main_content);                           // deleted
         listSliding = new ArrayList<>();
+
         //Add item for sliding list
         listSliding.add(new ItemSlideMenu(R.drawable.ic_action_settings, "Setting"));
         listSliding.add(new ItemSlideMenu(R.drawable.ic_action_settings, "About"));
         listSliding.add(new ItemSlideMenu(R.mipmap.ic_launcher, "Android"));
         adapter = new SlidingMenuAdapter(this, listSliding);
-        listViewSliding.setAdapter(adapter);
+        listViewSliding.setAdapter(adapter);                                                      // ISSUE !!!!!!!!!!!!!!
 
         // Display icon to open / close sliding list
+//        getActionBar().setDisplayHomeAsUpEnabled(true);                                             // modified
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Set title
@@ -80,7 +85,7 @@ public class MainActivity extends ActionBarActivity {
         drawerLayout.closeDrawer(listViewSliding);
 
         // Display fragment 1 when start
-        replaceFragment(0);
+        replaceFragment(0);                                                                         // added
 
         // Handle on item click
 
@@ -92,7 +97,7 @@ public class MainActivity extends ActionBarActivity {
                 // item selected
                 listViewSliding.setItemChecked(position, true);
                 //Replace fragment
-                replaceFragment(position);
+                replaceFragment(position);                                                          // added
                 // Close menu
                 drawerLayout.closeDrawer(listViewSliding);
 
@@ -102,11 +107,13 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                invalidateOptionsMenu();
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
+                invalidateOptionsMenu();
             }
         };
 
@@ -127,9 +134,15 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+//    @Override
+//    public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+//        super.onPostCreate(savedInstanceState, persistentState);
+//        actionBarDrawerToggle.syncState();
+//    }
+
     @Override
-    public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onPostCreate(savedInstanceState, persistentState);
+    public void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
         actionBarDrawerToggle.syncState();
     }
 
@@ -160,8 +173,8 @@ public class MainActivity extends ActionBarActivity {
             transaction.commit();
         }
     }
-}
 
+}
 
 //public class MainActivity extends Activity {
 //    TextView textResponse, TextViewresponse;

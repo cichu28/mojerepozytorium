@@ -20,9 +20,9 @@ public class SlidingMenuAdapter extends BaseAdapter {
     private Context context;
     private List<ItemSlideMenu> IstItem;
 
-    public SlidingMenuAdapter(Context context, List<ItemSlideMenu> istItem) {
+    public SlidingMenuAdapter(Context context, List<ItemSlideMenu> lstItem) {
         this.context = context;
-        IstItem = istItem;
+        this.IstItem = lstItem;
     }
 
     @Override
@@ -44,11 +44,11 @@ public class SlidingMenuAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = View.inflate(context, R.layout.item_sliding_menu, null);
         ImageView img = (ImageView)v.findViewById(R.id.item_img);
-        TextView tv = (TextView)v.findViewById(R.id.item_title);
+//        TextView tv = (TextView)v.findViewById(R.id.item_title);                                  // TU BYL BLAD!!!
 
         ItemSlideMenu item = IstItem.get(position);
         img.setImageResource(item.getImgId());
-        tv.setText(item.getTitle());
+//        tv.setText(item.getTitle());
 
         return v;
     }
