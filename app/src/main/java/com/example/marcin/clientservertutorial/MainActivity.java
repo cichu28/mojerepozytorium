@@ -1,6 +1,6 @@
 package com.example.marcin.clientservertutorial;
 
-//import android.app.ActionBar;
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -8,38 +8,38 @@ import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-//import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 //import android.support.v7.app.ActionBarDrawerToggle;
 
 
 //package com.example.androidclient;
 
-//import java.io.ByteArrayOutputStream;
-//import java.io.IOException;
-//import java.io.InputStream;
-//import java.io.OutputStream;
-//import java.net.Socket;
-//import java.net.UnknownHostException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-//import android.os.AsyncTask;
-//import android.os.Bundle;
-//import android.app.Activity;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-//import android.view.View.OnClickListener;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-//import android.widget.Button;
-//import android.widget.EditText;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-//import android.widget.SeekBar;
-//import android.widget.TextView;
-//import android.widget.Toast;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.marcin.clientservertutorial.adapter.SlidingMenuAdapter;
 import com.example.marcin.clientservertutorial.fragment.Fragment1;
@@ -52,55 +52,52 @@ public class MainActivity extends AppCompatActivity {
     private SlidingMenuAdapter adapter;
     private ListView listViewSliding;
     private DrawerLayout drawerLayout;
-//    private RelativeLayout mainContent;                                                           deleted
+//    private RelativeLayout mainContent;                                                           //deleted
     private ActionBarDrawerToggle actionBarDrawerToggle;
+        TextView textResponse, TextViewresponse;
+    EditText editTextAddress, editTextPort, editTextPWM_value;
+    Button buttonConnect, buttonClear;
+    int PWM  = 1;
+    byte PWM_byte;
+    String dstAddress;
+    int dstPort;
+    String response;
+//    MyClientTask myClientTask;
+    private static SeekBar seekBarPWMfrontback;
+    private static SeekBar seekBarPWMrightleft;
+    private static TextView textViewPWM_FB;
+    private static TextView textViewPWM_RL;
+    OutputStream byteArrayOutputStream;
+    Socket socket;
+    byte[] buffer = new byte[1024];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Init component
-        listViewSliding = (ListView) findViewById(R.id.lv_sliding_menu);
+        listViewSliding = (ListView) findViewById(R.id.lv_sliding_menu);                            //Init component
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        mainContent = (RelativeLayout) findViewById(R.id.main_content);                           // deleted
         listSliding = new ArrayList<>();
-
-        //Add item for sliding list
-        listSliding.add(new ItemSlideMenu(R.drawable.ic_action_settings, "Setting"));
+        listSliding.add(new ItemSlideMenu(R.drawable.ic_action_settings, "Setting"));               //Add item for sliding list
         listSliding.add(new ItemSlideMenu(R.drawable.icon, "About"));
         listSliding.add(new ItemSlideMenu(R.mipmap.ic_launcher, "Android"));
         adapter = new SlidingMenuAdapter(this, listSliding);
+
         listViewSliding.setAdapter(adapter);                                                      // ISSUE !!!!!!!!!!!!!!
-
-        // Display icon to open / close sliding list
-//        getActionBar().setDisplayHomeAsUpEnabled(true);                                             // modified
+//        getActionBar().setDisplayHomeAsUpEnabled(true);                                           // Display icon to open / close sliding list  // modified
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        // Set title
-        setTitle(listSliding.get(0).getTitle());
-        // item selected
-        listViewSliding.setItemChecked(0, true);
-        // Close menu
-        drawerLayout.closeDrawer(listViewSliding);
-
-        // Display fragment 1 when start
-        replaceFragment(0);                                                                         // added
-
-        // Handle on item click
-
+        setTitle(listSliding.get(0).getTitle());                                                    // Set title
+        listViewSliding.setItemChecked(0, true);                                                    // item selected
+        drawerLayout.closeDrawer(listViewSliding);                                                  // Close menu
+        replaceFragment(0);                                                                         // Display fragment 1 when start// added
         listViewSliding.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Set title
-                setTitle(listSliding.get(position).getTitle());
-                // item selected
-                listViewSliding.setItemChecked(position, true);
-                //Replace fragment
-                replaceFragment(position);                                                          // added
-                // Close menu
-                drawerLayout.closeDrawer(listViewSliding);
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {                    // Handle on item click
+        setTitle(listSliding.get(position).getTitle());                                             //Set title
+        listViewSliding.setItemChecked(position, true);                                             // item selected
+        replaceFragment(position);                                                          // added//Replace fragment
+        drawerLayout.closeDrawer(listViewSliding);                                                  // Close menu
             }
         });
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_opened, R.string.drawer_closed){
@@ -116,8 +113,9 @@ public class MainActivity extends AppCompatActivity {
                 invalidateOptionsMenu();
             }
         };
-
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+
     }
 
     @Override
@@ -177,22 +175,7 @@ public class MainActivity extends AppCompatActivity {
 }
 
 //public class MainActivity extends Activity {
-//    TextView textResponse, TextViewresponse;
-//    EditText editTextAddress, editTextPort, editTextPWM_value;
-//    Button buttonConnect, buttonClear;
-//    int PWM  = 1;
-//    byte PWM_byte;
-//    String dstAddress;
-//    int dstPort;
-//    String response;
-//    MyClientTask myClientTask;
-//    private static SeekBar seekBarPWMfrontback;
-//    private static SeekBar seekBarPWMrightleft;
-//    private static TextView textViewPWM_FB;
-//    private static TextView textViewPWM_RL;
-//    OutputStream byteArrayOutputStream;
-//    Socket socket;
-//    byte[] buffer = new byte[1024];
+
 //
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
