@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Add item for sliding list
         listSliding.add(new ItemSlideMenu(R.drawable.ic_action_settings, "Setting"));
-        listSliding.add(new ItemSlideMenu(R.drawable.ic_action_settings, "About"));
+        listSliding.add(new ItemSlideMenu(R.drawable.icon, "About"));
         listSliding.add(new ItemSlideMenu(R.mipmap.ic_launcher, "Android"));
         adapter = new SlidingMenuAdapter(this, listSliding);
         listViewSliding.setAdapter(adapter);                                                      // ISSUE !!!!!!!!!!!!!!
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
 //        super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
 //
-////        editTextPWM_value  = (EditText)findViewById(R.id.PWM_value);
+  //////      editTextPWM_value  = (EditText)findViewById(R.id.PWM_value);
 ////        TextViewresponse = (TextView)findViewById(R.id.response);
 //        seekBarPWMfrontback = (SeekBar)findViewById(R.id.seekBar);
 //        seekBarPWMrightleft = (SeekBar)findViewById(R.id.seekBar2);
