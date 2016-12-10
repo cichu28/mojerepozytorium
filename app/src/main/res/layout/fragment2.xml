@@ -1,12 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Monisia"
-        android:textSize="60dp"
-        android:layout_gravity="center"/>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="10dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="PWM (Front-Back):"
+                android:id="@+id/response"
+                android:layout_gravity="right"
+                android:layout_column="0" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="PWM (Right-Left):"
+                android:layout_gravity="right"
+                android:id="@+id/response2"
+                android:layout_column="0" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <SeekBar
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:id="@+id/seekBar"
+                android:focusableInTouchMode="false"
+                android:max="20"
+                android:progress="1"
+                android:indeterminate="false"
+                android:mirrorForRtl="false"
+                android:splitTrack="false"
+                android:rotation="270"
+                android:layout_column="0" />
+
+            <SeekBar
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/seekBar2"
+                android:focusableInTouchMode="false"
+                android:max="20"
+                android:progress="1"
+                android:indeterminate="false"
+                android:mirrorForRtl="false"
+                android:splitTrack="false"
+                android:layout_column="1"
+                android:layout_gravity="center_vertical" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </TableRow>
+    </TableLayout>
+
+
 </LinearLayout>

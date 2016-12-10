@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.12">
+        android:layout_weight="0.12"
+        android:layout_margin="10dp">
 
         <TableRow
             android:layout_width="match_parent"
@@ -26,7 +27,7 @@
             <EditText
                 android:id="@+id/port"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:hint="dstPort"
                 android:autoText="false"
                 android:text="8080"
@@ -34,12 +35,6 @@
                 android:layout_column="2"
                 android:gravity="top|center"
                 android:layout_gravity="center_horizontal" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
         </TableRow>
 
         <TableRow
