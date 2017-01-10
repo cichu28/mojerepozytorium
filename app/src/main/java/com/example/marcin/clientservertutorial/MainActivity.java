@@ -10,7 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-//import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 
 
 //package com.example.androidclient;
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
 //    private RelativeLayout mainContent;                                                           //deleted
     private ActionBarDrawerToggle actionBarDrawerToggle;
-        TextView textResponse, TextViewresponse;
+    TextView TextViewresponse;
     EditText editTextAddress, editTextPort, editTextPWM_value;
     Button buttonConnect, buttonClear;
     int PWM  = 1;
@@ -67,9 +67,11 @@ public class MainActivity extends AppCompatActivity {
     private static SeekBar seekBarPWMrightleft;
     private static TextView textViewPWM_FB;
     private static TextView textViewPWM_RL;
+    private static TextView TEXT2;
     OutputStream byteArrayOutputStream;
     Socket socket;
     byte[] buffer = new byte[1024];
+    public String text="Helloo";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +81,11 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        mainContent = (RelativeLayout) findViewById(R.id.main_content);                           // deleted
         listSliding = new ArrayList<>();
-        listSliding.add(new ItemSlideMenu(R.drawable.ic_action_settings, "Setting"));               //Add item for sliding list
-        listSliding.add(new ItemSlideMenu(R.drawable.icon, "About"));
-        listSliding.add(new ItemSlideMenu(R.mipmap.ic_launcher, "Android"));
+        listSliding.add(new ItemSlideMenu(R.drawable.ic_action_settings, "     Settings"));               //Add item for sliding list
+        listSliding.add(new ItemSlideMenu(R.drawable.icon, "     Settings"));
+        listSliding.add(new ItemSlideMenu(R.drawable.info, "     About"));
         adapter = new SlidingMenuAdapter(this, listSliding);
-
+        textViewPWM_FB = (TextView)findViewById(R.id.response);
         listViewSliding.setAdapter(adapter);                                                      // ISSUE !!!!!!!!!!!!!!
 //        getActionBar().setDisplayHomeAsUpEnabled(true);                                           // Display icon to open / close sliding list  // modified
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -94,10 +96,10 @@ public class MainActivity extends AppCompatActivity {
         listViewSliding.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {                    // Handle on item click
-        setTitle(listSliding.get(position).getTitle());                                             //Set title
-        listViewSliding.setItemChecked(position, true);                                             // item selected
-        replaceFragment(position);                                                          // added//Replace fragment
-        drawerLayout.closeDrawer(listViewSliding);                                                  // Close menu
+                setTitle(listSliding.get(position).getTitle());                                             //Set title
+                listViewSliding.setItemChecked(position, true);                                             // item selected
+                replaceFragment(position);                                                          // added//Replace fragment
+                drawerLayout.closeDrawer(listViewSliding);                                                  // Close menu
             }
         });
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_opened, R.string.drawer_closed){
@@ -114,15 +116,14 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+// *******************************************************************************************************************
 
-
+        SetSeekBarPWM();
+//        TEXT2 = (TextView) findViewById(R.id.TEXT);
+//        TEXT2.setText("Hello");
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -151,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         switch (pos) {
             case 0:
                 fragment = new Fragment1();
+
                 break;
             case 1:
                 fragment = new Fragment2();
@@ -159,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new Fragment3();
                 break;
             default:
-                fragment = new Fragment1();
+                //fragment = new Fragment1();
                 break;
         }
 
@@ -171,10 +173,58 @@ public class MainActivity extends AppCompatActivity {
             transaction.commit();
         }
     }
-
+    public void SetSeekBarPWM()
+    {
+//        textViewPWM_FB.setText("PWM (front-back): 0");
+//        textViewPWM_FB.setText("PWM (front-back): 0" + " / " + (seekBarPWMrightleft.getMax()/2));
+//        seekBarPWMfrontback.setOnSeekBarChangeListener(
+//                new SeekBar.OnSeekBarChangeListener()
+//                {
+//                    int progress_value = 0;
+//                    @Override
+//                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                        progress_value = progress;
+//                        textViewPWM_FB.setText("PWM (front-back):" + (progress_value-10) + " / " + (seekBarPWMrightleft.getMax()/2));
+//                        //                        Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
+////                        PWM = progress_value;
+////                        buffer[0] = (byte)PWM;
+//                        // tu bedzie wysylanie na server pwm
+////                        try
+////                        {
+////                            byteArrayOutputStream.write(buffer);
+////                            //socket.close(); // na koniec appki wypierdolic
+////                        }
+////
+////                        catch (IOException e)
+////                        {
+////                            // TODO Auto-generated catch block
+////                            e.printStackTrace();
+////                        }
+//                    }
+//
+//                    @Override
+//                    public void onStartTrackingTouch(SeekBar seekBar) {
+//                        //                        Toast.makeText(MainActivity.this, "SeekBar in StartTracking", Toast.LENGTH_LONG).show();
+//                    }
+//
+//                    @Override
+//                    public void onStopTrackingTouch(SeekBar seekBar) {
+//                        textViewPWM_FB.setText("PWM (front-back):" + (progress_value-10) + " / " + (seekBarPWMrightleft.getMax()/2));
+//                        //                        Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
+//                    }
+//                }
+//        );
+    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.main_menu, menu);
+//        return true;
+//    }
 }
 
-//public class MainActivity extends Activity {
+
+
+//8public class MainActivity extends Activity {
 
 //
 //    @Override
@@ -183,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
 //        setContentView(R.layout.activity_main);
 //
   //////      editTextPWM_value  = (EditText)findViewById(R.id.PWM_value);
-////        TextViewresponse = (TextView)findViewById(R.id.response);
+//        TextViewresponse = (TextView)findViewById(R.id.response);
 //        seekBarPWMfrontback = (SeekBar)findViewById(R.id.seekBar);
 //        seekBarPWMrightleft = (SeekBar)findViewById(R.id.seekBar2);
 //        textViewPWM_FB = (TextView)findViewById(R.id.response);
@@ -310,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
 //        );
 //    }
 //
-//    // *** PRZYCISK "NASŁUCHUJE"
+    // *** PRZYCISK "NASŁUCHUJE"
 //    OnClickListener buttonConnectOnClickListener = new OnClickListener()
 //    {
 //        @Override
@@ -318,8 +368,8 @@ public class MainActivity extends AppCompatActivity {
 //        {
 //            // Co sie stanie po wciśnięciuCONNETCT?
 //
-//            myClientTask = new MyClientTask(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()));
-//            myClientTask.execute();
+////            myClientTask = new MyClientTask(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()));
+////            myClientTask.execute();
 //
 //        }
 //    };
