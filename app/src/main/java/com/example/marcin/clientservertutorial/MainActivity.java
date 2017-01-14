@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     Socket socket;
     byte[] buffer = new byte[1024];
     public String text="Helloo";
+    private MyClientTask myClientTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,11 +117,23 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+
 // *******************************************************************************************************************
 
-        SetSeekBarPWM();
+//        SetSeekBarPWM();
 //        TEXT2 = (TextView) findViewById(R.id.TEXT);
 //        TEXT2.setText("Hello");
+    }
+
+
+    public void send(byte[] data) {
+        if( byteArrayOutputStream==null) return;
+        try {
+            byteArrayOutputStream.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -132,6 +145,53 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+        OnClickListener buttonConnectOnClickListener = new OnClickListener()
+    {
+        @Override
+        public void onClick(View arg0)
+        {
+            // Co sie stanie po wciśnięciuCONNETCT?
+
+            myClientTask = new MyClientTask(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()));
+            myClientTask.execute();
+
+        }
+    };
+
+        public class MyClientTask extends AsyncTask<Void, Void, Void>
+    {
+        MyClientTask(String addr, int port)
+        {
+            dstAddress = addr;
+            dstPort = port;
+        }
+
+        // *** KLIENT
+        @Override
+        protected Void doInBackground(Void... arg0)
+        {
+            // *** WYSYŁAM
+            try
+            {
+                socket = new Socket("172.24.1.1", 8080);
+                byteArrayOutputStream = socket.getOutputStream();
+            }
+            catch (IOException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+
+
+
+
 
 //    @Override
 //    public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
@@ -173,8 +233,8 @@ public class MainActivity extends AppCompatActivity {
             transaction.commit();
         }
     }
-    public void SetSeekBarPWM()
-    {
+//   public void SetSeekBarPWM()
+//    {
 //        textViewPWM_FB.setText("PWM (front-back): 0");
 //        textViewPWM_FB.setText("PWM (front-back): 0" + " / " + (seekBarPWMrightleft.getMax()/2));
 //        seekBarPWMfrontback.setOnSeekBarChangeListener(
@@ -220,11 +280,15 @@ public class MainActivity extends AppCompatActivity {
 //        getMenuInflater().inflate(R.menu.main_menu, menu);
 //        return true;
 //    }
-}
+//}
 
 
 
-//8public class MainActivity extends Activity {
+
+
+
+//***************************************************************************************************
+//public class MainActivity extends Activity {
 
 //
 //    @Override
@@ -236,7 +300,6 @@ public class MainActivity extends AppCompatActivity {
 //        TextViewresponse = (TextView)findViewById(R.id.response);
 //        seekBarPWMfrontback = (SeekBar)findViewById(R.id.seekBar);
 //        seekBarPWMrightleft = (SeekBar)findViewById(R.id.seekBar2);
-//        textViewPWM_FB = (TextView)findViewById(R.id.response);
 //        textViewPWM_RL = (TextView)findViewById(R.id.response2);
 //
 //        editTextAddress = (EditText)findViewById(R.id.address);
